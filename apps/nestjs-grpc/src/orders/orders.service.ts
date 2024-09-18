@@ -45,22 +45,28 @@ export class OrdersService implements OnModuleInit {
     this.orderClientGrpc = this.clintGrpc.getService('OrderService');
   }
   async create(createOrderDto: CreateOrderDto) {
+    const metadata = new Metadata();
+    metadata.set('authorization', 'Bearer 1234');
     const result = await lastValueFrom(
-      this.orderClientGrpc.createOrder(createOrderDto),
+      this.orderClientGrpc.createOrder(createOrderDto, metadata),
     );
     return result.order;
   }
 
   async findAll(account_id: string) {
+    const metadata = new Metadata();
+    metadata.set('authorization', 'Bearer 1234');
     const result = await lastValueFrom(
-      this.orderClientGrpc.findAllOrders({ account_id }),
+      this.orderClientGrpc.findAllOrders({ account_id }, metadata),
     );
     return result.orders;
   }
 
   async findOne(id: string) {
+    const metadata = new Metadata();
+    metadata.set('authorization', 'Bearer 1234');
     const result = await lastValueFrom(
-      this.orderClientGrpc.findOneOrder({ order_id: id }),
+      this.orderClientGrpc.findOneOrder({ order_id: id }, metadata),
     );
     return result.order;
   }
